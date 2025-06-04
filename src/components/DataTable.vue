@@ -62,6 +62,10 @@ const columns = [
     title: 'unibest版本',
     dataIndex: 'unibestVersion',
     key: 'unibestVersion',
+    customRender: ({ text, record }: { text: string; record: BeaconData }) => {
+      // cb@v2.18.5开始只留了 unibestVersionGitee
+      return record.unibestVersion || record.unibestVersionGitee || '--'
+    },
   },
   {
     title: 'create-unibest版本',
