@@ -42,7 +42,6 @@ const processData = () => {
 const initChart = () => {
   if (!chartRef.value) return
   chartInstance = echarts.init(chartRef.value)
-  updateChart()
 }
 
 // 更新图表配置
@@ -77,16 +76,18 @@ const updateChart = () => {
 }
 
 onMounted(async () => {
-  // 等待props数据可能的异步加载（如果父组件数据是异步获取的）
-  await new Promise(resolve => setTimeout(resolve, 100))
   initChart()
   // 初始数据加载后手动触发一次更新
   updateChart()
 })
 
-watch([props.hourlyData, isLineChart], () => {
-  updateChart()
-})
+watch(
+  () => [props.hourlyData, isLineChart],
+  () => {
+    updateChart()
+  },
+  { deep: true, immediate: true },
+)
 
 onUnmounted(() => {
   chartInstance?.dispose()
