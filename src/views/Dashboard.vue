@@ -2,9 +2,17 @@
   <div class="space-y-3">
     <div class="flex items-center space-x-3">
       <!-- 每天使用量图表 -->
-      <DailyUsageChart :daily-data="dailyData" :total="hourlyDataTotal" />
+      <DailyUsageChart
+        :daily-data="dailyData"
+        :total="hourlyDataTotal"
+        class="flex-1"
+      />
       <!-- 小时使用量图表 -->
-      <HourlyUsageChart :hourly-data="hourlyData" :total="hourlyDataTotal" />
+      <HourlyUsageChart
+        :hourly-data="hourlyData"
+        :total="hourlyDataTotal"
+        class="flex-1"
+      />
     </div>
     <DataTable />
   </div>
