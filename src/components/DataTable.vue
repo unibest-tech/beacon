@@ -25,14 +25,15 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'osPlatform'">
-            {{ formatOsPlatform(record.osPlatform) }}
-          </template>
-          <template v-else-if="column.key === 'time'">
+          <template v-if="column.key === 'time'">
             {{ formatDateTime(record.time) }}
           </template>
           <template v-else-if="column.key === 'duration'">
-            {{ record.duration ? `${record.duration.toFixed(2)}S` : '--' }}
+            {{
+              record.duration !== undefined && !isNaN(Number(record.duration))
+                ? `${Number(record.duration).toFixed(2)}S`
+                : '--'
+            }}
           </template>
         </template>
       </a-table>
@@ -71,6 +72,9 @@ const columns = [
     title: '操作系统',
     dataIndex: 'os',
     key: 'os',
+    customRender: ({ text, record }: { text: string; record: BeaconData }) => {
+      return record.osPlatform || record.os || '--'
+    },
   },
   {
     title: 'Node版本',
