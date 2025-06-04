@@ -73,6 +73,7 @@ const columns = [
     dataIndex: 'os',
     key: 'os',
     customRender: ({ text, record }: { text: string; record: BeaconData }) => {
+      // cb@v2.18.5开始用 osPlatform 替换 os
       return record.osPlatform || record.os || '--'
     },
   },
