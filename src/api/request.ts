@@ -37,7 +37,7 @@ request.interceptors.response.use(
       message.error(data.msg || '请求失败')
       return Promise.reject(new Error(data.msg || '请求失败'))
     }
-    return data
+    return data.data
   },
   error => {
     message.error(error.message || '请求失败')

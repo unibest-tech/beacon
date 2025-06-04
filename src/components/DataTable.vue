@@ -58,9 +58,9 @@ const columns = [
     key: 'template',
   },
   {
-    title: '系统平台',
-    dataIndex: 'osPlatform',
-    key: 'osPlatform',
+    title: '操作系统',
+    dataIndex: 'os',
+    key: 'os',
   },
   {
     title: 'Node版本',
