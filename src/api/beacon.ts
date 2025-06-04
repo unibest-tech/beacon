@@ -21,7 +21,7 @@ export interface ApiResponse<T = any> {
 }
 
 export interface QueryParams {
-  page: number
+  page?: number
   pageSize?: number
   os?: string
 }
@@ -35,6 +35,23 @@ export async function fetchBeaconData(
     {
       params,
     },
+  )
+  return response
+}
+
+interface HourlyDataItem {
+  hour: number
+  count: number
+}
+
+export async function fetchBeaconHourlyData(): Promise<
+  ApiResponse<{ total: number; hourlyData: HourlyDataItem[] }>
+> {
+  const response = await request.get<
+    any,
+    ApiResponse<{ total: number; hourlyData: HourlyDataItem[] }>
+  >(
+    '/create-unibest/getBeaconByHour', // 修正为正确接口路径
   )
   return response
 }
