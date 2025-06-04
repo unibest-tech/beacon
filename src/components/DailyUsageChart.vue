@@ -38,7 +38,8 @@ const isLineChart = ref(true)
 
 // 生成日期+星期的组合标签数组
 const getXAxisData = () =>
-  props.dailyData.map(item => `${item.date}（${item.dayOfWeek}）`)
+  // props.dailyData.map(item => `${item.date}（${item.dayOfWeek}）`)
+  props.dailyData.map(item => `${item.date}`)
 
 // 处理数据（直接使用接口返回的count数组）
 const processData = () => props.dailyData.map(item => item.count)
@@ -59,14 +60,21 @@ const updateChart = () => {
       name: '日期',
       boundaryGap: !isLineChart.value,
       axisLabel: {
-        rotate: 45, // 防止标签重叠
+        rotate: 30, // 防止标签重叠
         align: 'right',
+        // padding: [10, 0, 0, 0], // 增加顶部内边距
       },
     },
     yAxis: {
       type: 'value',
       name: '数量',
     },
+    // grid: {
+    //   left: '3%',
+    //   right: '4%',
+    //   bottom: '30%', // 增加底部空间确保标签显示
+    //   containLabel: true,
+    // },
     series: [
       {
         data: processData(),
