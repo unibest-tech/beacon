@@ -15,13 +15,14 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as echarts from 'echarts'
 
-interface HourlyDataItem {
-  hour: number
+interface DailyDataItem {
+  dayOfWeek: string
+  date: string
   count: number
 }
 
 const props = defineProps({
-  hourlyData: {
+  dailyData: {
     type: Array as () => HourlyDataItem[],
     required: true,
   },
@@ -35,14 +36,12 @@ const chartRef = ref<HTMLDivElement | null>(null)
 let chartInstance: echarts.ECharts | null = null
 const isLineChart = ref(true)
 
-// 生成0-23小时的完整数组
-const fullHours = Array.from({ length: 24 }, (_, i) => i)
+// 生成日期+星期的组合标签数组
+const getXAxisData = () =>
+  props.dailyData.map(item => `${item.date}（${item.dayOfWeek}）`)
 
-// 处理数据（补全缺失小时）
-const processData = () => {
-  const dataMap = new Map(props.hourlyData.map(item => [item.hour, item.count]))
-  return fullHours.map(hour => dataMap.get(hour) || 0)
-}
+// 处理数据（直接使用接口返回的count数组）
+const processData = () => props.dailyData.map(item => item.count)
 
 // 初始化图表
 const initChart = () => {
@@ -56,9 +55,13 @@ const updateChart = () => {
   const option: echarts.EChartsOption = {
     xAxis: {
       type: 'category',
-      data: fullHours,
-      name: '小时',
+      data: getXAxisData(),
+      name: '日期',
       boundaryGap: !isLineChart.value,
+      axisLabel: {
+        rotate: 45, // 防止标签重叠
+        align: 'right',
+      },
     },
     yAxis: {
       type: 'value',
@@ -88,7 +91,7 @@ onMounted(async () => {
 })
 
 watch(
-  () => [props.hourlyData, isLineChart],
+  () => [props.dailyData, isLineChart],
   () => {
     updateChart()
   },

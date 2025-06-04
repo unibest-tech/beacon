@@ -50,8 +50,15 @@ export async function fetchBeaconHourlyData(): Promise<
   const response = await request.get<
     any,
     ApiResponse<{ total: number; hourlyData: HourlyDataItem[] }>
-  >(
-    '/create-unibest/getBeaconByHour', // 修正为正确接口路径
-  )
+  >('/create-unibest/getBeaconByHour')
+  return response
+}
+export async function fetchBeaconDailyData(): Promise<
+  ApiResponse<{ total: number; dailyData: HourlyDataItem[] }>
+> {
+  const response = await request.get<
+    any,
+    ApiResponse<{ total: number; dailyData: HourlyDataItem[] }>
+  >('/create-unibest/getBeaconByDay')
   return response
 }
