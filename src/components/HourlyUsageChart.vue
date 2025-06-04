@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div class="my-chart-container">
     <div class="chart-type-toggle">
       <button @click="isLineChart = !isLineChart">
         {{ isLineChart ? '切换为柱状图' : '切换为线条图' }}
@@ -76,8 +76,12 @@ const updateChart = () => {
   chartInstance.setOption(option)
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // 等待props数据可能的异步加载（如果父组件数据是异步获取的）
+  await new Promise(resolve => setTimeout(resolve, 100))
   initChart()
+  // 初始数据加载后手动触发一次更新
+  updateChart()
 })
 
 watch([props.hourlyData, isLineChart], () => {
@@ -90,7 +94,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.chart-container {
+.my-chart-container {
   padding: 20px;
   background: #fff;
   border-radius: 8px;
