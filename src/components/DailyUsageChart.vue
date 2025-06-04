@@ -1,6 +1,6 @@
 <template>
   <div class="my-chart-container">
-    <h3 class="text-lg font-medium mb-4">每小时分布</h3>
+    <h3 class="text-lg font-medium mb-4">每天分布</h3>
     <div class="chart-type-toggle">
       <button @click="isLineChart = !isLineChart">
         {{ isLineChart ? '切换为柱状图' : '切换为线条图' }}
