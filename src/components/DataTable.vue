@@ -85,7 +85,7 @@ const filterOs = ref('')
 const pagination = ref<TablePaginationConfig>({
   total: 0,
   current: 1,
-  pageSize: 10,
+  pageSize: 100,
   showSizeChanger: true,
   showTotal: total => `共 ${total} 条`,
 })
@@ -105,7 +105,7 @@ const fetchData = async () => {
   try {
     const params = {
       page: pagination.value.current || 1,
-      pageSize: pagination.value.pageSize || 10,
+      pageSize: pagination.value.pageSize || 100,
       os: filterOs.value || undefined,
     }
     const res = await fetchBeaconData(params)
@@ -123,7 +123,7 @@ const fetchData = async () => {
 // 修正：将onMounted移到顶层
 onMounted(() => {
   // 初始化加载第一页数据
-  handleTableChange({ current: 1, pageSize: 10 })
+  handleTableChange({ current: 1, pageSize: 100 })
 })
 
 const handleTableChange = (pag: TablePaginationConfig) => {
