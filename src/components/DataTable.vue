@@ -31,7 +31,9 @@
           <template v-else-if="column.key === 'time'">
             {{ formatDateTime(record.time) }}
           </template>
-          <template v-else-if="column.key === 'duration'"> {{ record.duration }}s </template>
+          <template v-else-if="column.key === 'duration'">
+            {{ record.duration }}s
+          </template>
         </template>
       </a-table>
     </div>

@@ -12,18 +12,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
-import * as echarts from 'echarts/core';
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import * as echarts from 'echarts/core'
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent,
   GridComponent,
-} from 'echarts/components';
-import { PieChart, BarChart } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
-import type { BeaconData } from '@/api/beacon';
-import { groupByHour } from '@/utils/dateUtil';
+} from 'echarts/components'
+import { PieChart, BarChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
+import type { BeaconData } from '@/api/beacon'
+import { groupByHour } from '@/utils/dateUtil'
 
 echarts.use([
   TitleComponent,
@@ -33,35 +33,35 @@ echarts.use([
   PieChart,
   BarChart,
   CanvasRenderer,
-]);
+])
 
 const props = defineProps<{
-  data: BeaconData[];
-}>();
+  data: BeaconData[]
+}>()
 
-const osChartRef = ref<HTMLElement>();
-const hourlyChartRef = ref<HTMLElement>();
-let osChart: echarts.ECharts | null = null;
-let hourlyChart: echarts.ECharts | null = null;
+const osChartRef = ref<HTMLElement>()
+const hourlyChartRef = ref<HTMLElement>()
+let osChart: echarts.ECharts | null = null
+let hourlyChart: echarts.ECharts | null = null
 
 const initCharts = () => {
   if (osChartRef.value && !osChart) {
-    osChart = echarts.init(osChartRef.value);
+    osChart = echarts.init(osChartRef.value)
   }
   if (hourlyChartRef.value && !hourlyChart) {
-    hourlyChart = echarts.init(hourlyChartRef.value);
+    hourlyChart = echarts.init(hourlyChartRef.value)
   }
-  updateCharts();
-};
+  updateCharts()
+}
 
 const updateOsChart = () => {
-  if (!osChart || !props.data.length) return;
+  if (!osChart || !props.data.length) return
 
-  const osCount: Record<string, number> = {};
-  props.data.forEach((item) => {
-    const os = item.os || '未知';
-    osCount[os] = (osCount[os] || 0) + 1;
-  });
+  const osCount: Record<string, number> = {}
+  props.data.forEach(item => {
+    const os = item.os || '未知'
+    osCount[os] = (osCount[os] || 0) + 1
+  })
 
   const data = Object.entries(osCount).map(([name, value]) => ({
     name:
@@ -73,7 +73,7 @@ const updateOsChart = () => {
         ? 'Linux'
         : name,
     value,
-  }));
+  }))
 
   osChart.setOption({
     tooltip: {
@@ -111,13 +111,13 @@ const updateOsChart = () => {
         data,
       },
     ],
-  });
-};
+  })
+}
 
 const updateHourlyChart = () => {
-  if (!hourlyChart || !props.data.length) return;
+  if (!hourlyChart || !props.data.length) return
 
-  const hourlyData = groupByHour(props.data);
+  const hourlyData = groupByHour(props.data)
 
   hourlyChart.setOption({
     tooltip: {
@@ -135,7 +135,7 @@ const updateHourlyChart = () => {
     xAxis: [
       {
         type: 'category',
-        data: hourlyData.map((item) => item.hour),
+        data: hourlyData.map(item => item.hour),
         axisTick: {
           alignWithLabel: true,
         },
@@ -151,42 +151,42 @@ const updateHourlyChart = () => {
         name: '使用量',
         type: 'bar',
         barWidth: '60%',
-        data: hourlyData.map((item) => item.count),
+        data: hourlyData.map(item => item.count),
       },
     ],
-  });
-};
+  })
+}
 
 const updateCharts = () => {
-  console.log('Updating charts with data length:', props.data.length);
-  updateOsChart();
-  updateHourlyChart();
-};
+  console.log('Updating charts with data length:', props.data.length)
+  updateOsChart()
+  updateHourlyChart()
+}
 
 watch(
   () => props.data,
-  (newData) => {
-    console.log('ChartPanel data updated:', newData.length);
+  newData => {
+    console.log('ChartPanel data updated:', newData.length)
     if (newData.length > 0) {
-      updateCharts();
+      updateCharts()
     }
   },
-  { immediate: true }
-);
+  { immediate: true },
+)
 
 const handleResize = () => {
-  osChart?.resize();
-  hourlyChart?.resize();
-};
+  osChart?.resize()
+  hourlyChart?.resize()
+}
 
 onMounted(() => {
-  initCharts();
-  window.addEventListener('resize', handleResize);
-});
+  initCharts()
+  window.addEventListener('resize', handleResize)
+})
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-  osChart?.dispose();
-  hourlyChart?.dispose();
-});
+  window.removeEventListener('resize', handleResize)
+  osChart?.dispose()
+  hourlyChart?.dispose()
+})
 </script>

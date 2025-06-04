@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import MainLayout from '@/layouts/MainLayout.vue';
-import Dashboard from '@/views/Dashboard.vue';
-import Analysis from '@/views/Analysis.vue';
-import Settings from '@/views/Settings.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import MainLayout from '@/layouts/MainLayout.vue'
+import Dashboard from '@/views/Dashboard.vue'
+import Analysis from '@/views/Analysis.vue'
+import Settings from '@/views/Settings.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -38,13 +38,13 @@ const router = createRouter({
       ],
     },
   ],
-});
+})
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
   // 设置页面标题
-  document.title = `${to.meta.title} - Unibest Beacon`;
-  next();
-});
+  document.title = `${to.meta.title} - Unibest Beacon`
+  next()
+})
 
-export default router;
+export default router
