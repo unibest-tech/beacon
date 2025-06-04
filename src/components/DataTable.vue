@@ -32,7 +32,7 @@
             {{ formatDateTime(record.time) }}
           </template>
           <template v-else-if="column.key === 'duration'">
-            {{ record.duration }}s
+            {{ record.duration ? `${record.duration.toFixed(2)}S` : '--' }}
           </template>
         </template>
       </a-table>
@@ -56,6 +56,16 @@ const columns = [
     title: '模板类型',
     dataIndex: 'template',
     key: 'template',
+  },
+  {
+    title: 'unibest版本',
+    dataIndex: 'unibestVersion',
+    key: 'unibestVersion',
+  },
+  {
+    title: 'create-unibest版本',
+    dataIndex: 'createUnibestVersion',
+    key: 'createUnibestVersion',
   },
   {
     title: '操作系统',
