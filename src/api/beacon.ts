@@ -42,26 +42,37 @@ export async function fetchBeaconData(
   return response
 }
 
-interface HourlyDataItem {
+export interface HourlyDataItem {
   hour: number
   count: number
 }
-
+export interface HourlyDateResp {
+  total: number
+  hourlyData: HourlyDataItem[]
+}
+export interface DailyDataItem {
+  day: number
+  count: number
+}
+export interface DailyDateResp {
+  total: number
+  dailyData: DailyDataItem[]
+}
 export async function fetchBeaconHourlyData(): Promise<
-  ApiResponse<{ total: number; hourlyData: HourlyDataItem[] }>
+  ApiResponse<HourlyDateResp>
 > {
   const response = await request.get<
     any,
-    ApiResponse<{ total: number; hourlyData: HourlyDataItem[] }>
+    ApiResponse<HourlyDateResp>
   >('/create-unibest/getBeaconByHour')
   return response
 }
 export async function fetchBeaconDailyData(): Promise<
-  ApiResponse<{ total: number; dailyData: HourlyDataItem[] }>
+  ApiResponse<DailyDateResp>
 > {
   const response = await request.get<
     any,
-    ApiResponse<{ total: number; dailyData: HourlyDataItem[] }>
+    ApiResponse<DailyDateResp>
   >('/create-unibest/getBeaconByDay')
   return response
 }

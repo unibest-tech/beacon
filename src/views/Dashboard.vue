@@ -19,23 +19,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import DailyUsageChart from '@/components/DailyUsageChart.vue'
 import HourlyUsageChart from '@/components/HourlyUsageChart.vue'
-import ChartPanel from '@/components/ChartPanel.vue'
 import DataTable from '@/components/DataTable.vue'
-import type { BeaconData } from '@/api/beacon'
-import { fetchBeaconHourlyData, fetchBeaconDailyData } from '@/api/beacon'
+import {
+  fetchBeaconHourlyData,
+  fetchBeaconDailyData,
+  HourlyDataItem,
+  DailyDataItem,
+} from '@/api/beacon'
 
-const hourlyData = ref<Array<{ hour: number; count: number }>>([])
+const hourlyData = ref<Array<HourlyDataItem>>([])
 const hourlyDataTotal = ref<number>(0)
-const dailyData = ref<Array<{ hour: number; count: number }>>([])
+const dailyData = ref<Array<DailyDataItem>>([])
 const dailyDataTotal = ref<number>(0)
 
 const fetchDailyData = async () => {
   try {
     const res = await fetchBeaconDailyData()
-    dailyData.value = res.dailyData
+    dailyData.value = res.dailyData as DailyDataItem[]
     dailyDataTotal.value = res.total
     console.log('Dashboard received hourly data:', hourlyData.value)
   } catch (error) {
@@ -45,7 +48,7 @@ const fetchDailyData = async () => {
 const fetchHourlyData = async () => {
   try {
     const res = await fetchBeaconHourlyData()
-    hourlyData.value = res.hourlyData
+    hourlyData.value = res.hourlyData as HourlyDataItem[]
     hourlyDataTotal.value = res.total
     console.log('Dashboard received hourly data:', hourlyData.value)
   } catch (error) {
