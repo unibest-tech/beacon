@@ -9,6 +9,9 @@ export interface BeaconData {
   osPlatform?: string // 系统平台（win32/darwin/linux）
   nodeVersion?: string
   cpuModel?: string
+  os?: string
+  unibestVersion?: string
+  unibestVersionGitee?: string
 }
 
 export interface ApiResponse<T = any> {
