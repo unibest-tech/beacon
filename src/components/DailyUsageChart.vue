@@ -23,7 +23,7 @@ interface DailyDataItem {
 
 const props = defineProps({
   dailyData: {
-    type: Array as () => HourlyDataItem[],
+    type: Array as () => DailyDataItem[],
     required: true,
   },
   total: {
@@ -37,9 +37,8 @@ let chartInstance: echarts.ECharts | null = null
 const isLineChart = ref(true)
 
 // 生成日期+星期的组合标签数组
-const getXAxisData = () =>
-  // props.dailyData.map(item => `${item.date}（${item.dayOfWeek}）`)
-  props.dailyData.map(item => `${item.date}`)
+const getXAxisData = () => props.dailyData.map(item => `${item.dayOfWeek}`)
+// props.dailyData.map(item => `${item.date}`)
 
 // 处理数据（直接使用接口返回的count数组）
 const processData = () => props.dailyData.map(item => item.count)
@@ -60,7 +59,7 @@ const updateChart = () => {
       name: '日期',
       boundaryGap: !isLineChart.value,
       axisLabel: {
-        rotate: 30, // 防止标签重叠
+        // rotate: 30, // 防止标签重叠
         align: 'right',
         // padding: [10, 0, 0, 0], // 增加顶部内边距
       },
@@ -78,7 +77,7 @@ const updateChart = () => {
     series: [
       {
         data: processData(),
-        type: isLineChart.value ? 'line' : 'bar',
+        type: isLineChart.value ? 'bar' : 'line',
         smooth: true,
         itemStyle: {
           color: '#5470C6',
