@@ -86,6 +86,11 @@ const updateChart = () => {
     ],
     tooltip: {
       trigger: 'axis',
+      formatter: (params: any) => {
+        const index = params[0].dataIndex
+        const item = props.dailyData[index]
+        return `${item.date} ${item.dayOfWeek}<br/>数量: ${params[0].value}`
+      },
     },
   }
   chartInstance.setOption(option)
