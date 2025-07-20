@@ -12,7 +12,7 @@ import { fetchBeaconData } from '@/api/beacon'
 import type { BeaconData } from '@/api/beacon'
 
 // 定义支持的模板类型
-const TEMPLATE_TYPES = ['main', 'base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
+const TEMPLATE_TYPES = ['main+base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
 
 type TemplateType = typeof TEMPLATE_TYPES[number]
 
@@ -43,7 +43,10 @@ const processChartData = () => {
   // 统计数据
   rawData.value.forEach(item => {
     const template = item.template as TemplateType
-    if (TEMPLATE_TYPES.includes(template)) {
+    // 将'main'和'base'合并到'main+base'类别
+    if (template === 'main' || template === 'base') {
+      templateCount['main+base']++
+    } else if (TEMPLATE_TYPES.includes(template)) {
       templateCount[template]++
     }
   })
