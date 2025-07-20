@@ -2,18 +2,11 @@
   <div class="space-y-3">
     <div class="flex items-center space-x-3">
       <!-- 每天使用量图表 -->
-      <DailyUsageChart
-        :daily-data="dailyData"
-        :total="hourlyDataTotal"
-        class="flex-1"
-      />
+      <DailyUsageChart :daily-data="dailyData" :total="hourlyDataTotal" class="flex-1" />
       <!-- 小时使用量图表 -->
-      <HourlyUsageChart
-        :hourly-data="hourlyData"
-        :total="hourlyDataTotal"
-        class="flex-1"
-      />
+      <HourlyUsageChart :hourly-data="hourlyData" :total="hourlyDataTotal" class="flex-1" />
     </div>
+    <template-stats-chart />
     <DataTable />
   </div>
 </template>
@@ -23,6 +16,7 @@ import { ref } from 'vue'
 import DailyUsageChart from '@/components/DailyUsageChart.vue'
 import HourlyUsageChart from '@/components/HourlyUsageChart.vue'
 import DataTable from '@/components/DataTable.vue'
+import TemplateStatsChart from '@/components/TemplateStatsChart.vue'
 import {
   fetchBeaconHourlyData,
   fetchBeaconDailyData,
