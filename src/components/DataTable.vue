@@ -3,12 +3,7 @@
     <div class="p-4">
       <a-row :gutter="16" class="mb-4">
         <a-col :span="8">
-          <a-select
-            v-model:value="filterOs"
-            placeholder="选择系统平台"
-            style="width: 100%"
-            @change="handleFilter"
-          >
+          <a-select v-model:value="filterOs" placeholder="选择系统平台" style="width: 100%" @change="handleFilter">
             <a-select-option value="">全部</a-select-option>
             <a-select-option value="win32">Windows</a-select-option>
             <a-select-option value="darwin">macOS</a-select-option>
@@ -17,13 +12,8 @@
         </a-col>
       </a-row>
 
-      <a-table
-        :columns="columns"
-        :data-source="tableData"
-        :pagination="pagination"
-        :loading="loading"
-        @change="handleTableChange"
-      >
+      <a-table :columns="columns" :data-source="tableData" :pagination="pagination" :loading="loading"
+        @change="handleTableChange">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'time'">
             {{ formatDateTime(record.time) }}

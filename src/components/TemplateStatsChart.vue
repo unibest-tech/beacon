@@ -68,7 +68,7 @@ const fetchData = async () => {
   loading.value = true
   try {
     // 直接获取所有数据，不使用分页
-    const res = await fetchBeaconData({ page: 1, pageSize: 1000 })
+    const res = await fetchBeaconData({ page: 1, pageSize: 10000 })
     rawData.value = res.data
     processChartData()
   } catch (error) {
