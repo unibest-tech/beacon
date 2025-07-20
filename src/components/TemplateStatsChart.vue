@@ -12,7 +12,7 @@ import { fetchBeaconData } from '@/api/beacon'
 import type { BeaconData } from '@/api/beacon'
 
 // 定义支持的模板类型
-const TEMPLATE_TYPES = ['main+base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
+const TEMPLATE_TYPES = ['main', 'base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
 
 type TemplateType = typeof TEMPLATE_TYPES[number]
 
@@ -35,18 +35,21 @@ let chartInstance: echarts.ECharts | null = null
  */
 const processChartData = () => {
   // 初始化统计对象
-  const templateCount: Record<string, number> = TEMPLATE_TYPES.reduce((acc, type) => {
+  // 定义合并后的类别
+  const mergedCategories = ['main+base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
+
+  // 初始化统计对象
+  const templateCount: Record<string, number> = mergedCategories.reduce((acc, type) => {
     acc[type] = 0
     return acc
   }, {} as Record<string, number>)
 
-  // 统计数据
+  // 处理数据并合并main和base
   rawData.value.forEach(item => {
     const template = item.template as TemplateType
-    // 将'main'和'base'合并到'main+base'类别
     if (template === 'main' || template === 'base') {
       templateCount['main+base']++
-    } else if (TEMPLATE_TYPES.includes(template)) {
+    } else if (mergedCategories.some(category => category === template)) {
       templateCount[template]++
     }
   })
@@ -150,7 +153,7 @@ onMounted(() => {
   fetchData()
   // 等待数据加载后初始化图表
   setTimeout(initChart, 100)
-  
+
   // 窗口大小变化时重绘图表
   window.addEventListener('resize', handleResize)
 })
