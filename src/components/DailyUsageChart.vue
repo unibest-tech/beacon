@@ -110,8 +110,21 @@ watch(
   { deep: true, immediate: true },
 )
 
+// 处理窗口大小变化
+const handleResize = () => {
+  chartInstance?.resize()
+}
+
+onMounted(async () => {
+  initChart()
+  // 初始数据加载后手动触发一次更新
+  updateChart()
+  window.addEventListener('resize', handleResize)
+})
+
 onUnmounted(() => {
   chartInstance?.dispose()
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -122,9 +135,11 @@ onUnmounted(() => {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .chart-type-toggle {
   margin-bottom: 16px;
 }
+
 .chart-type-toggle button {
   padding: 8px 16px;
   background: #5470c6;
@@ -133,6 +148,7 @@ onUnmounted(() => {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .chart-type-toggle button:hover {
   background: #4360b5;
 }

@@ -95,8 +95,21 @@ watch(
   { deep: true, immediate: true },
 )
 
+// 处理窗口大小变化
+const handleResize = () => {
+  chartInstance?.resize()
+}
+
+onMounted(async () => {
+  initChart()
+  // 初始数据加载后手动触发一次更新
+  updateChart()
+  window.addEventListener('resize', handleResize)
+})
+
 onUnmounted(() => {
   chartInstance?.dispose()
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
