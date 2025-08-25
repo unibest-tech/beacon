@@ -11,14 +11,25 @@ import * as echarts from 'echarts'
 import { fetchBeaconData } from '@/api/beacon'
 import type { BeaconData } from '@/api/beacon'
 
+const mainBase = ['main', 'base']
+const mainBaseMerged = ['main+base']
+const BaseTempList = [
+  'base-sard-ui',
+  'base-uv-ui',
+  'base-uview-plus',
+  'base-uview-pro',
+  'base-skiyee-ui',
+  'i18n',
+  'demo',
+]
 // 定义支持的模板类型
-const TEMPLATE_TYPES = ['main', 'base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
+const TEMPLATE_TYPES = [...mainBase, ...BaseTempList] as const
 
-type TemplateType = typeof TEMPLATE_TYPES[number]
+type TemplateType = (typeof TEMPLATE_TYPES)[number]
 
 // 图表数据格式
 interface ChartDataItem {
-  template: string
+  template: TemplateType
   count: number
 }
 
@@ -36,13 +47,16 @@ let chartInstance: echarts.ECharts | null = null
 const processChartData = () => {
   // 初始化统计对象
   // 定义合并后的类别
-  const mergedCategories = ['main+base', 'base-sard-ui', 'base-uv-ui', 'base-uview-plus', 'i18n', 'demo'] as const
+  const mergedCategories = [...mainBaseMerged, ...BaseTempList] as const
 
   // 初始化统计对象
-  const templateCount: Record<string, number> = mergedCategories.reduce((acc, type) => {
-    acc[type] = 0
-    return acc
-  }, {} as Record<string, number>)
+  const templateCount: Record<string, number> = mergedCategories.reduce(
+    (acc, type) => {
+      acc[type] = 0
+      return acc
+    },
+    {} as Record<string, number>,
+  )
 
   // 处理数据并合并main和base
   rawData.value.forEach(item => {
@@ -57,7 +71,7 @@ const processChartData = () => {
   // 转换为图表所需格式
   chartData.value = Object.entries(templateCount).map(([template, count]) => ({
     template,
-    count
+    count,
   }))
 }
 
@@ -97,27 +111,27 @@ const updateChart = () => {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'shadow'
-      }
+        type: 'shadow',
+      },
     },
     grid: {
       left: '3%',
       right: '4%',
       bottom: '3%',
-      containLabel: true
+      containLabel: true,
     },
     xAxis: {
       type: 'category',
       data: chartData.value.map(item => item.template),
       axisLabel: {
         rotate: 45,
-        interval: 0
+        interval: 0,
       },
-      name: '模板类型'
+      name: '模板类型',
     },
     yAxis: {
       type: 'value',
-      name: '使用次数'
+      name: '使用次数',
     },
     series: [
       {
@@ -126,13 +140,13 @@ const updateChart = () => {
         data: chartData.value.map(item => item.count),
         label: {
           show: true,
-          position: 'top'
+          position: 'top',
         },
         itemStyle: {
-          color: '#5470C6'
-        }
-      }
-    ]
+          color: '#5470C6',
+        },
+      },
+    ],
   }
 
   chartInstance.setOption(option)
