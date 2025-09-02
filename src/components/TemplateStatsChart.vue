@@ -1,7 +1,21 @@
 <template>
   <div class="p-4 bg-white rounded-lg shadow-sm">
     <h3 class="text-lg font-medium mb-4">模板使用统计</h3>
-    <div ref="chartRef" class="h-[400px] w-full"></div>
+    <div class="relative h-400px">
+      <!-- 图表显示 -->
+      <div ref="chartRef" class="h-[400px] w-full"></div>
+      <div
+        v-if="loading"
+        class="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center"
+      >
+        <div class="flex flex-col items-center">
+          <div
+            class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"
+          ></div>
+          <span class="mt-3 text-gray-500">加载中...</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -76,7 +90,8 @@ const processChartData = () => {
 }
 
 /**
- * 从API获取数据
+ * 从API获取数据，主要是服务端没有对应接口，所以这里直接获取所有数据，前端自己计算
+ * 所以接口会比较满
  */
 const fetchData = async () => {
   loading.value = true
@@ -97,7 +112,9 @@ const fetchData = async () => {
  */
 const initChart = () => {
   if (!chartRef.value) return
-  chartInstance = echarts.init(chartRef.value)
+  chartInstance = echarts.init(chartRef.value, {
+    height: '400px',
+  })
   updateChart()
 }
 

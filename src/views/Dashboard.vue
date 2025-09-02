@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 p-4">
     <div class="flex items-center space-x-3">
       <!-- 每天使用量图表 -->
       <DailyUsageChart
@@ -9,6 +9,7 @@
       />
     </div>
     <template-stats-chart />
+    <h3>所有数据</h3>
     <DataTable />
   </div>
 </template>
