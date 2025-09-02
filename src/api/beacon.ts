@@ -51,8 +51,9 @@ export interface HourlyDateResp {
   hourlyData: HourlyDataItem[]
 }
 export interface DailyDataItem {
-  day: number
+  date: string
   count: number
+  dayOfWeek: string
 }
 export interface DailyDateResp {
   total: number
@@ -61,18 +62,16 @@ export interface DailyDateResp {
 export async function fetchBeaconHourlyData(): Promise<
   ApiResponse<HourlyDateResp>
 > {
-  const response = await request.get<
-    any,
-    ApiResponse<HourlyDateResp>
-  >('/create-unibest/getBeaconByHour')
+  const response = await request.get<any, ApiResponse<HourlyDateResp>>(
+    '/create-unibest/getBeaconByHour',
+  )
   return response
 }
 export async function fetchBeaconDailyData(): Promise<
   ApiResponse<DailyDateResp>
 > {
-  const response = await request.get<
-    any,
-    ApiResponse<DailyDateResp>
-  >('/create-unibest/getBeaconByDay')
+  const response = await request.get<any, ApiResponse<DailyDateResp>>(
+    '/create-unibest/getBeaconByDay',
+  )
   return response
 }

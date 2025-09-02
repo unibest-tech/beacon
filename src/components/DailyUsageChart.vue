@@ -14,12 +14,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as echarts from 'echarts'
-
-interface DailyDataItem {
-  dayOfWeek: string
-  date: string
-  count: number
-}
+import { DailyDataItem } from '@/api/beacon'
 
 const props = defineProps({
   dailyData: {
